@@ -253,32 +253,62 @@ class EmbeddingVisualizer:
     
     def visualize_2d(self, coords: np.ndarray, titles: List[str], sources: List[str], 
                      method: str, filename: str = None):
-        """Create 2D scatter plot"""
-        plt.figure(figsize=(16, 12))
+        """Create 2D scatter plot with enhanced labels and annotations"""
+        fig, ax = plt.subplots(figsize=(18, 14))
         
         # Color by source
         unique_sources = list(set(sources))
         colors = plt.cm.tab10(np.linspace(0, 1, len(unique_sources)))
         source_to_color = {source: colors[i] for i, source in enumerate(unique_sources)}
         
+        # Count articles per source
+        source_counts = {source: sources.count(source) for source in unique_sources}
+        
         for source in unique_sources:
             mask = [s == source for s in sources]
-            plt.scatter(coords[mask, 0], coords[mask, 1], 
-                       label=source, alpha=0.6, s=50, 
-                       c=[source_to_color[source]])
+            count = sum(mask)
+            ax.scatter(coords[mask, 0], coords[mask, 1], 
+                       label=f'{source} ({count} articles)', alpha=0.6, s=80, 
+                       c=[source_to_color[source]], edgecolors='white', linewidth=0.5)
         
-        plt.title(f'Fraud Article Embeddings - {method.upper()} Projection', fontsize=16, pad=20)
-        plt.xlabel(f'{method.upper()} Component 1', fontsize=12)
-        plt.ylabel(f'{method.upper()} Component 2', fontsize=12)
-        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
-        plt.grid(True, alpha=0.3)
+        # Add title with explanation
+        plt.suptitle('Fraud Article Similarity Map', fontsize=20, fontweight='bold', y=0.98)
+        ax.set_title(
+            'Each dot = one fraud article. Closer dots = more similar content.\n'
+            'Articles about similar fraud types cluster together.',
+            fontsize=13, pad=15, style='italic'
+        )
+        
+        ax.set_xlabel('← Different Topics                Topic Similarity                Different Topics →', 
+                     fontsize=13, fontweight='bold')
+        ax.set_ylabel('← Different Topics                Topic Similarity                Different Topics →', 
+                     fontsize=13, fontweight='bold')
+        
+        # Enhanced legend
+        legend = ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left', fontsize=11,
+                          title='Data Sources', title_fontsize=13, framealpha=0.95,
+                          edgecolor='black', fancybox=True, shadow=True)
+        
+        ax.grid(True, alpha=0.2, linestyle='--')
+        ax.set_facecolor('#f8f9fa')
+        
+        # Add text box with interpretation guide
+        textstr = 'How to Read This:\n' \
+                 '• Clusters = Similar fraud types\n' \
+                 '• Scattered dots = Unique cases\n' \
+                 '• Mixed colors = Multiple sources\n' \
+                 '  covering same fraud topic'
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
+        ax.text(0.02, 0.98, textstr, transform=ax.transAxes, fontsize=10,
+               verticalalignment='top', bbox=props)
+        
         plt.tight_layout()
         
         if filename is None:
             filename = f'embeddings_2d_{method}.png'
         
         filepath = self.output_dir / filename
-        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.savefig(filepath, dpi=300, bbox_inches='tight', facecolor='white')
         print(f"Saved 2D visualization to {filepath}")
         plt.close()
     
