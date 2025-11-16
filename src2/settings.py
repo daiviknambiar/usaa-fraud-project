@@ -48,8 +48,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+# src2/settings.py
 ITEM_PIPELINES = {
-    "pipelines.FtcScraperPipeline": 300,
+    "pipelines.SupabasePipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
