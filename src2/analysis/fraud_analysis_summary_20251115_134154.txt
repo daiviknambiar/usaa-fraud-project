@@ -1,0 +1,23 @@
+======================================================================
+FRAUD ANALYSIS SUMMARY REPORT
+Generated: 2025-11-15 13:41:54
+======================================================================
+
+Total Articles Analyzed: 80
+Total Topics Discovered: 2
+Total Keywords Extracted: 80
+
+======================================================================
+TOP 3 FRAUD TRENDS
+======================================================================
+
+1. Primary Fraud Pattern
+   Keywords: chairman, andrew, trade, federal, commission
+   Occurrences: 9
+   Most common fraud pattern involving: chairman, andrew, trade, federal, commission
+
+2. Emerging Fraud Terminology
+   Keywords: trade commission, federal trade, chairman andrew, commission chairman, chairman
+   Occurrences: 59
+   Key fraud terms appearing frequently: trade commission, federal trade, chairman andrew, commission chairman, chairman
+

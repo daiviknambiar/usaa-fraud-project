@@ -1,0 +1,670 @@
+{
+  "timestamp": "20251115_134154",
+  "total_articles": 80,
+  "topics": {
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "20": 0,
+    "16": 0,
+    "17": 0,
+    "19": 0,
+    "21": 0,
+    "23": 0,
+    "25": 0,
+    "26": 0,
+    "27": 0,
+    "28": 0,
+    "29": 0,
+    "30": 0,
+    "31": 0,
+    "35": 0,
+    "36": 0,
+    "37": 0,
+    "39": 0,
+    "40": 0,
+    "41": 0,
+    "42": 0,
+    "60": 0,
+    "45": 0,
+    "46": 0,
+    "47": 0,
+    "48": 0,
+    "49": 0,
+    "50": 0,
+    "51": 0,
+    "52": 0,
+    "54": 0,
+    "55": 0,
+    "56": 0,
+    "58": 0,
+    "59": 1,
+    "62": 0,
+    "63": 0,
+    "64": 0,
+    "66": 1,
+    "67": 1,
+    "68": 0,
+    "69": 0,
+    "72": 0,
+    "73": 1,
+    "74": 0,
+    "75": 0,
+    "77": 0,
+    "1": 0,
+    "2": 0,
+    "3": 1,
+    "78": 0,
+    "79": 0,
+    "80": 0,
+    "14": 0,
+    "22": 0,
+    "24": 0,
+    "33": 1,
+    "38": 0,
+    "43": 0,
+    "53": 1,
+    "57": 0,
+    "8": 1,
+    "70": 0,
+    "71": 0,
+    "18": 0,
+    "32": 0,
+    "34": 0,
+    "61": 0,
+    "4": 0,
+    "13": 0,
+    "76": 0,
+    "15": 1,
+    "44": 0,
+    "65": 0
+  },
+  "keywords": {
+    "5": [
+      "consumers defrauded",
+      "trade commission",
+      "commission sending",
+      "blueprint wealth",
+      "defrauded"
+    ],
+    "6": [
+      "doj antitrust",
+      "antitrust division",
+      "antitrust",
+      "trade commission",
+      "federal trade"
+    ],
+    "7": [
+      "states sued",
+      "nation ticketmaster",
+      "sued live",
+      "sued",
+      "ticketmaster"
+    ],
+    "9": [
+      "deceptive charity",
+      "stopped deceptive",
+      "deceptive claims",
+      "claims donors",
+      "agencies"
+    ],
+    "10": [
+      "banned industry",
+      "industry settlement",
+      "companies permanently",
+      "commerce business",
+      "operators commerce"
+    ],
+    "11": [
+      "commission sending",
+      "trade commission",
+      "million consumers",
+      "commission",
+      "federal trade"
+    ],
+    "12": [
+      "air ai",
+      "deceptive claims",
+      "claims bu",
+      "stop air",
+      "allegedly deceptive"
+    ],
+    "20": [
+      "department antitrust",
+      "antitrust division",
+      "trade commission",
+      "antitrust",
+      "commerce department"
+    ],
+    "16": [
+      "disney pay",
+      "million settle",
+      "disney",
+      "10 million",
+      "settle federal"
+    ],
+    "17": [
+      "robot toy",
+      "toy maker",
+      "trade commission",
+      "maker apitor",
+      "apitor technology"
+    ],
+    "19": [
+      "claims gender",
+      "public inquiry",
+      "gender affirming",
+      "consumers exposed",
+      "unsupported claims"
+    ],
+    "21": [
+      "900 refunds",
+      "refunds consumers",
+      "refunds",
+      "harmed scammers",
+      "promised loan"
+    ],
+    "23": [
+      "tmf grant",
+      "fund tmf",
+      "tmf",
+      "modernization fund",
+      "federal trade"
+    ],
+    "25": [
+      "student loan",
+      "loan forgiveness",
+      "promised loan",
+      "loan borrowers",
+      "borrowers harmed"
+    ],
+    "26": [
+      "acquisition jenavalve",
+      "jenavalve technology",
+      "supplier edwards",
+      "corp edwards",
+      "trade commission"
+    ],
+    "27": [
+      "trade commission",
+      "federal trade",
+      "commission",
+      "federal",
+      "trade"
+    ],
+    "28": [
+      "kellanova mars",
+      "mars incorporated",
+      "review mars",
+      "mars global",
+      "acquisition kellanova"
+    ],
+    "29": [
+      "ehrlich ceo",
+      "stephen ehrlich",
+      "digital pay",
+      "ceo crypto",
+      "voyager digital"
+    ],
+    "30": [
+      "refunds consumers",
+      "million refunds",
+      "refunds",
+      "credit game",
+      "credit repair"
+    ],
+    "31": [
+      "antitrust concerns",
+      "resolving antitrust",
+      "antitrust",
+      "federal trade",
+      "trade commission"
+    ],
+    "35": [
+      "approved denied",
+      "commission approved",
+      "denied petition",
+      "final consent",
+      "subsidiary encap"
+    ],
+    "36": [
+      "goods origin",
+      "ftc usa",
+      "comply ftc",
+      "usa requirements",
+      "letters companies"
+    ],
+    "37": [
+      "trade commission",
+      "products weight",
+      "commission sending",
+      "payments totaling",
+      "roca labs"
+    ],
+    "39": [
+      "telemedicine company",
+      "settle federal",
+      "trade commission",
+      "telemedicine",
+      "operators telemedicine"
+    ],
+    "40": [
+      "commission reopened",
+      "exxon mobil",
+      "involving exxon",
+      "exxon",
+      "final consent"
+    ],
+    "41": [
+      "commission denied",
+      "involving exxon",
+      "exxon",
+      "sheffield founder",
+      "exxon mobil"
+    ],
+    "42": [
+      "defendants business",
+      "turn cash",
+      "dollars settle",
+      "business opportunity",
+      "opportunity scheme"
+    ],
+    "60": [
+      "defendants pay",
+      "million settle",
+      "settle federal",
+      "earnings claims",
+      "baseless earnings"
+    ],
+    "45": [
+      "trade commission",
+      "federal trade",
+      "federal court",
+      "request federal",
+      "commission request"
+    ],
+    "46": [
+      "seeking reopen",
+      "commission requests",
+      "comment petition",
+      "petition seeking",
+      "reopen"
+    ],
+    "47": [
+      "life savings",
+      "savings",
+      "increase 2020",
+      "older adults",
+      "fold increase"
+    ],
+    "48": [
+      "iq llc",
+      "assurance iq",
+      "llc mediaalpha",
+      "assurance",
+      "llc"
+    ],
+    "49": [
+      "million settle",
+      "commission allegations",
+      "academy scheme",
+      "mastery academy",
+      "pay million"
+    ],
+    "50": [
+      "match com",
+      "dating services",
+      "dating sites",
+      "online dating",
+      "match owners"
+    ],
+    "51": [
+      "frank romero",
+      "romero operator",
+      "romero",
+      "remaining funds",
+      "trend deploy"
+    ],
+    "52": [
+      "investigation truck",
+      "violated antitrust",
+      "closed investigation",
+      "commission closed",
+      "clean truck"
+    ],
+    "54": [
+      "cancel gym",
+      "sued operators",
+      "gyms allegations",
+      "sued",
+      "la fitness"
+    ],
+    "55": [
+      "ftc dismissed",
+      "dismissed complaint",
+      "ftc",
+      "today ftc",
+      "dismissed"
+    ],
+    "56": [
+      "suing ticket",
+      "commission suing",
+      "ticket broker",
+      "suing",
+      "ticket purchasing"
+    ],
+    "58": [
+      "pornhub pornography",
+      "operators pornhub",
+      "pornography streaming",
+      "pornhub",
+      "pornography"
+    ],
+    "59": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "62": [
+      "trade commission",
+      "american workers",
+      "workers harmful",
+      "harmful labor",
+      "labor practices"
+    ],
+    "63": [
+      "marketplace temu",
+      "temu pay",
+      "whaleco operates",
+      "whaleco",
+      "temu"
+    ],
+    "64": [
+      "employer nonc",
+      "trade commission",
+      "public inquiry",
+      "federal trade",
+      "effects employer"
+    ],
+    "66": [
+      "ferguson appointed",
+      "appointed emma",
+      "burnham associate",
+      "mittelstaedt burnham",
+      "director healthcare"
+    ],
+    "67": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "68": [
+      "chatbots seeking",
+      "chatbots",
+      "powered chatbots",
+      "trade commission",
+      "ai"
+    ],
+    "69": [
+      "order amazon",
+      "amazon enrol",
+      "allegations amazon",
+      "amazon",
+      "amazon com"
+    ],
+    "72": [
+      "agency proposed",
+      "comment agency",
+      "strategic plan",
+      "proposed strategic",
+      "plan fiscal"
+    ],
+    "73": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "74": [
+      "sendit anonymous",
+      "anonymous messaging",
+      "messaging app",
+      "app unlawfully",
+      "sending messages"
+    ],
+    "75": [
+      "dun bradstreet",
+      "million settlement",
+      "settlement federal",
+      "bradstreet agreed",
+      "bradstreet"
+    ],
+    "77": [
+      "sued zillow",
+      "zillow redfin",
+      "commission sued",
+      "redfin unlawful",
+      "zillow"
+    ],
+    "1": [
+      "company valvoline",
+      "commission require",
+      "greenbriar equity",
+      "valvoline private",
+      "require automotive"
+    ],
+    "2": [
+      "chegg"
+    ],
+    "3": [
+      "directors sevita",
+      "individuals resigned",
+      "resigned positions",
+      "sevita health",
+      "health sevita"
+    ],
+    "78": [
+      "commission denied",
+      "denied petition",
+      "seeking reopen",
+      "trade commission",
+      "reopen"
+    ],
+    "79": [
+      "synopsys ansys",
+      "synopsys",
+      "requires synopsys",
+      "ansys",
+      "consent order"
+    ],
+    "80": [
+      "scammers falsely",
+      "falsely impers",
+      "relief scammers",
+      "alleged tax",
+      "tax debt"
+    ],
+    "14": [
+      "workado llc",
+      "order workado",
+      "trade commission",
+      "commission given",
+      "final approval"
+    ],
+    "22": [
+      "banned selling",
+      "opportunities settlement",
+      "opportunity scheme",
+      "business opportunity",
+      "selling business"
+    ],
+    "24": [
+      "department antitrust",
+      "antitrust division",
+      "trade commission",
+      "antitrust",
+      "commerce department"
+    ],
+    "33": [
+      "2025 usa",
+      "july 2025",
+      "2025",
+      "ferguson issued",
+      "proclaiming july"
+    ],
+    "38": [
+      "care minors",
+      "gender affirming",
+      "practices gender",
+      "minors",
+      "trade practices"
+    ],
+    "43": [
+      "commission reopened",
+      "involving chevron",
+      "chevron corporation",
+      "trade commission",
+      "reopened"
+    ],
+    "53": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "57": [],
+    "8": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "70": [
+      "banned debt",
+      "eric caldwell",
+      "hernandez permanently",
+      "caldwell david",
+      "hernandez"
+    ],
+    "71": [
+      "trade commission",
+      "settle federal",
+      "commission approved",
+      "federal trade",
+      "order settle"
+    ],
+    "18": [
+      "register horseracing",
+      "horseracing integrity",
+      "trade commission",
+      "horseracing",
+      "federal trade"
+    ],
+    "32": [
+      "department antitrust",
+      "antitrust division",
+      "trade commission",
+      "antitrust",
+      "commerce department"
+    ],
+    "34": [
+      "energy fund",
+      "trade commission",
+      "ygrene energy",
+      "million payments",
+      "federal trade"
+    ],
+    "61": [
+      "dismiss appeals",
+      "appeals ryan",
+      "trade commission",
+      "ryan llc",
+      "dismiss"
+    ],
+    "4": [
+      "workshop",
+      "host workshop",
+      "workshop titled",
+      "trade commission",
+      "commission announced"
+    ],
+    "13": [
+      "fees telemarketers",
+      "telemarketers access",
+      "dnc registry",
+      "new fees",
+      "telemarketers"
+    ],
+    "76": [
+      "citizens disability",
+      "million penalty",
+      "disability llc",
+      "penalty resolve",
+      "millions illegal"
+    ],
+    "15": [
+      "chairman andrew",
+      "commission chairman",
+      "trade commission",
+      "chairman",
+      "andrew"
+    ],
+    "44": [
+      "banning monitori",
+      "zuckerman ceo",
+      "zuckerman",
+      "marketed stalkerware",
+      "stalkerware apps"
+    ],
+    "65": [
+      "horseracing integrity",
+      "comment horseracing",
+      "safety authority",
+      "integrity safety",
+      "trade commission"
+    ]
+  },
+  "trends": [
+    {
+      "rank": 1,
+      "name": "Primary Fraud Pattern",
+      "keywords": [
+        "chairman",
+        "andrew",
+        "trade",
+        "federal",
+        "commission"
+      ],
+      "count": 9,
+      "description": "Most common fraud pattern involving: chairman, andrew, trade, federal, commission"
+    },
+    {
+      "rank": 2,
+      "name": "Emerging Fraud Terminology",
+      "keywords": [
+        "trade commission",
+        "federal trade",
+        "chairman andrew",
+        "commission chairman",
+        "chairman"
+      ],
+      "count": 59,
+      "description": "Key fraud terms appearing frequently: trade commission, federal trade, chairman andrew, commission chairman, chairman"
+    }
+  ],
+  "summary": {
+    "total_topics": 2,
+    "articles_analyzed": 80
+  }
+}
