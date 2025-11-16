@@ -70,3 +70,9 @@ htmlcov/
 # Logs
 *.log
 logs/
+.venv/
+*.pyc
+__pycache__/
+.venv/
+*.pyc
+__pycache__/
