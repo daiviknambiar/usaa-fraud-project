@@ -4,7 +4,7 @@
 
 A Python-based collection system that web scraps fraud-related content from the Federal Trade Commission (FTC) sources, filters & classifies articles using a fruad detection modal, and loads standardized results into a Supabase database.
 
-## Project Structure
+## Project Structure 🛠️
 
 ![Project Structure](https://raw.githubusercontent.com/daiviknambiar/usaa-fraud-project/main/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg)
 
