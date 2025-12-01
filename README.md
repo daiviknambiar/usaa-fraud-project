@@ -5,7 +5,7 @@ A collection of web scrapers that collect fraud-related content from Federal Tra
 ## Project Structure
 
 ```
-https://github.com/daiviknambiar/usaa-fraud-project/blob/ae3ccec77f639a8687f070cfb5c45af43f28a4a2/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg
+![image alt](https://github.com/daiviknambiar/usaa-fraud-project/blob/ae3ccec77f639a8687f070cfb5c45af43f28a4a2/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg)
 ```
 
 ## Setup
