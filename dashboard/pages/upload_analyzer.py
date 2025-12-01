@@ -1,11 +1,20 @@
-import streamlit as st
+import os
 import sys
-from pathlib import Path
+import pandas as pd
+import streamlit as st
+import re
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# -------------------------------------------------------------------
+# Ensure project root is on PYTHONPATH
+# -------------------------------------------------------------------
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.append(ROOT)
 
-from src.detect.fraud_detector import FraudDetector
+# -------------------------------------------------------------------
+# Import your actual fraud functions
+# -------------------------------------------------------------------
+from src.detect.fraud_detector import detect_fraud_for_record, count_hits
 
 def render(loader):
     """Render the upload and analyze page"""
@@ -27,15 +36,12 @@ def render(loader):
     
     st.markdown("---")
     
-    # Initialize fraud detector
-    detector = FraudDetector()
-    
     if analysis_mode == "Text Input":
-        render_text_analysis(detector)
+        render_text_analysis()
     else:
-        render_file_upload(detector)
+        render_file_upload()
 
-def render_text_analysis(detector):
+def render_text_analysis():
     """Render text input analysis"""
     
     st.subheader("✍️ Text Analysis")
@@ -65,7 +71,12 @@ def render_text_analysis(detector):
     
     if analyze_button and text_input:
         with st.spinner("Analyzing..."):
-            result = detector.detect(text_input)
+            # Create a record for detection
+            record = {
+                'title': '',
+                'body': text_input
+            }
+            result = detect_fraud_for_record(record)
             
             st.markdown("---")
             st.subheader("📊 Analysis Results")
@@ -95,30 +106,20 @@ def render_text_analysis(detector):
                 st.markdown("#### Fraud Keywords Found:")
                 
                 # Find which keywords were detected
+                from src.detect.fraud_detector import KEYWORDS
                 detected_keywords = []
                 text_lower = text_input.lower()
                 
-                # Get keywords from detector
-                keywords = detector.fraud_keywords if hasattr(detector, 'fraud_keywords') else [
-                    'fraud', 'scam', 'phishing', 'identity theft', 'wire transfer',
-                    'ransomware', 'malware', 'ponzi', 'pyramid scheme', 'money mule',
-                    'business email compromise', 'fake invoice', 'refund scam',
-                    'tech support scam', 'romance scam', 'cryptocurrency scam'
-                ]
-                
-                for keyword in keywords:
-                    if keyword in text_lower:
-                        count = text_lower.count(keyword)
+                for keyword in KEYWORDS:
+                    pattern = r"\b" + re.escape(keyword.lower()) + r"\b"
+                    matches = re.findall(pattern, text_lower)
+                    if matches:
+                        count = len(matches)
                         detected_keywords.append((keyword, count))
                 
                 if detected_keywords:
-                    keyword_df = {
-                        'Keyword': [kw for kw, _ in detected_keywords],
-                        'Occurrences': [count for _, count in detected_keywords]
-                    }
+                    keyword_df = pd.DataFrame(detected_keywords, columns=['Keyword', 'Occurrences'])
                     st.dataframe(keyword_df, use_container_width=True)
-                else:
-                    st.info("Keywords detected but not in the standard list")
                 
                 # Highlight text
                 st.markdown("---")
@@ -127,7 +128,6 @@ def render_text_analysis(detector):
                 highlighted_text = text_input
                 for keyword, _ in detected_keywords:
                     # Simple highlighting (case-insensitive)
-                    import re
                     pattern = re.compile(re.escape(keyword), re.IGNORECASE)
                     highlighted_text = pattern.sub(
                         f'<mark style="background-color: #ffeb3b;">{keyword}</mark>',
@@ -164,14 +164,13 @@ def render_text_analysis(detector):
     elif analyze_button:
         st.warning("⚠️ Please enter some text to analyze")
 
-def render_file_upload(detector):
+def render_file_upload():
     """Render file upload analysis"""
     
     st.subheader("📁 File Upload Analysis")
     
     st.markdown("""
-    Upload a text file (.txt) or document to analyze for fraud indicators.
-    Support for additional formats (PDF, DOCX) coming soon.
+    Upload a text file (.txt) to analyze for fraud indicators.
     """)
     
     uploaded_file = st.file_uploader(
@@ -193,7 +192,11 @@ def render_file_upload(detector):
             
             if st.button("🔍 Analyze File", type="primary"):
                 with st.spinner("Analyzing..."):
-                    result = detector.detect(text_content)
+                    record = {
+                        'title': uploaded_file.name,
+                        'body': text_content
+                    }
+                    result = detect_fraud_for_record(record)
                     
                     st.markdown("---")
                     st.subheader("📊 Analysis Results")
@@ -230,9 +233,8 @@ def render_file_upload(detector):
                     report = f"""
 FRAUD DETECTION ANALYSIS REPORT
 ================================
-
 File: {uploaded_file.name}
-Analyzed: {st.session_state.get('analysis_time', 'N/A')}
+Analyzed: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 RESULTS:
 --------

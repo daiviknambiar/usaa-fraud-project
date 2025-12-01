@@ -4,12 +4,10 @@ import os
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT not in sys.path:
     sys.path.append(ROOT)
- 
 
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-import sys
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -56,7 +54,7 @@ def main():
     # Navigation
     page = st.sidebar.radio(
         "Navigation",
-        ["📊 Overview", "📰 Article Browser", "📈 Analytics", "📤 Upload & Analyze"],
+        ["�� Overview", "📰 Article Browser", "📈 Analytics", "📤 Upload & Analyze"],
         label_visibility="collapsed"
     )
     
@@ -79,18 +77,19 @@ def main():
         max_value=datetime.now()
     )
     
+    # Source filter
     sources = st.sidebar.multiselect(
-    "Sources",
-    options=["FTC Press Releases", "FTC Legal Cases", "FTC Consumer Scams", "FTC DNC Complaints", "All"],
-    default=["All"]
-)
+        "Sources",
+        options=["FTC Press Releases", "FTC Legal Cases", "FTC Consumer Scams", "All"],
+        default=["All"]
+    )
     
     # Fraud score threshold
     min_fraud_score = st.sidebar.slider(
         "Minimum Fraud Score",
         min_value=0.0,
         max_value=10.0,
-        value=0.0,
+        value=2.0,
         step=0.5
     )
     
@@ -122,3 +121,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

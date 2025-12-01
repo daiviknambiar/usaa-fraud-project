@@ -69,11 +69,31 @@ class DataLoader:
         # Convert to DataFrame
         df = pd.DataFrame(articles)
         
+        # DEBUG
+        print(f"\n=== DEBUG DATA_LOADER ===")
+        print(f"Total articles loaded from files: {len(df)}")
+        
         # Normalize column names and data types
         df = self._normalize_dataframe(df)
         
+        # DEBUG
+        print(f"After normalization: {len(df)}")
+        if len(df) > 0:
+            # Check for any remaining string dates
+            valid_dates = df['published_at'].notna()
+            print(f"Valid dates: {valid_dates.sum()} / {len(df)}")
+            if valid_dates.sum() > 0:
+                print(f"Date range: {df.loc[valid_dates, 'published_at'].min()} to {df.loc[valid_dates, 'published_at'].max()}")
+            print(f"Fraud score range: {df['fraud_score'].min()} to {df['fraud_score'].max()}")
+            print(f"Sources: {df['source'].value_counts().to_dict()}")
+        
         # Apply filters
         df = self._apply_filters(df, filters)
+        
+        # DEBUG
+        print(f"After filters: {len(df)}")
+        print(f"Filters applied: {filters}")
+        print("=" * 50)
         
         return df
     
@@ -91,9 +111,12 @@ class DataLoader:
             df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
         elif 'published' in df.columns:
             # Handle both ISO format and space-separated format
-            df['published_at'] = pd.to_datetime(df['published'], errors='coerce', format='mixed')
+            df['published_at'] = pd.to_datetime(df['published'], errors='coerce')
         else:
             df['published_at'] = pd.NaT
+        
+        # Ensure all dates are datetime objects, not strings
+        df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
         
         # Handle fraud detection columns
         if 'fraud_score' not in df.columns:
@@ -137,8 +160,12 @@ class DataLoader:
             if len(date_range) == 2:
                 start_date, end_date = date_range
                 if 'published_at' in df.columns:
+                    # DEBUG
+                    print(f"DEBUG Filter: Date range {start_date} to {end_date}")
+                    before_filter = len(df)
                     mask = (df['published_at'].dt.date >= start_date) & (df['published_at'].dt.date <= end_date)
                     df = df[mask]
+                    print(f"DEBUG Filter: Date filter removed {before_filter - len(df)} articles")
         
         # Source filter
         if 'sources' in filters and filters['sources']:
@@ -152,12 +179,16 @@ class DataLoader:
                     'FTC DNC Complaints': 'ftc_dnc'
                 }
                 internal_sources = [source_map.get(s, s) for s in sources]
+                before_filter = len(df)
                 df = df[df['source'].isin(internal_sources)]
+                print(f"DEBUG Filter: Source filter removed {before_filter - len(df)} articles")
         
         # Fraud score filter
         if 'min_fraud_score' in filters:
             min_score = filters['min_fraud_score']
+            before_filter = len(df)
             df = df[df['fraud_score'] >= min_score]
+            print(f"DEBUG Filter: Fraud score filter (>={min_score}) removed {before_filter - len(df)} articles")
         
         return df
     
