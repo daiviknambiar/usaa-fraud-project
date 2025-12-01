@@ -1,13 +1,15 @@
 # FTC Fraud Scrapers
 
-A collection of web scrapers that collect fraud-related content from Federal Trade Commission (FTC) websites, perform keyword-based fraud detection, and load results into a Supabase database.
+## Automated collection + fraud detection from FTC websites
+
+A Python-based collection system that web scraps fraud-related content from the Federal Trade Commission (FTC) sources, filters & classifies articles using a fruad detection modal, and loads standardized results into a Supabase database.
 
 ## Project Structure
 
 ![Project Structure](https://raw.githubusercontent.com/daiviknambiar/usaa-fraud-project/main/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg)
 
 
-## Setup
+## Installation & Setup🚀
 
 1. **Create and activate virtual environment:**
 ```bash
@@ -29,7 +31,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 ## Usage
 
-### Quick Start (Recommended)
+### Quick Start⚡️ (Recommended)
 
 Use the main entry point for all operations:
 
@@ -96,9 +98,9 @@ The loader will:
 
 ## How It Works
 
-### 1. Data Collection (Scrapers)
+### 1. Data Collection (Scrapers)✅
 
-Each scraper extracts:
+Each scraper returns consistent fields:
 - **title**: Article/case title
 - **url**: Source URL
 - **published**: Publication date
@@ -107,20 +109,21 @@ Each scraper extracts:
 
 Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) during collection to focus on fraud-related content.
 
-### 2. Fraud Detection (Two-Tier System)
+### 2. Fraud Detection (A Two-Tier System)✅
 
 **Tier 1: Content Filtering** ([src/utils/keywords.py](src/utils/keywords.py))
-- Basic filtering during scraping
-- Simple fraud terms: "fraud", "scam", "phishing", "identity theft"
-- Minimum 1 hit required
+- Basic filtering when scraping
+- Simple fraud terms: "fraud", "scam", "phishing", "identity theft" (removes irrelevant articles)
+- ≥1 hits minimum required for classification
 
 **Tier 2: Classification** ([src/detect/fraud_detector.py](src/detect/fraud_detector.py))
 - Applied during database loading
 - Extended 16+ keyword list including: ransomware, money mules, business email compromise, etc.
-- Minimum 2 hits required for classification
+- ≥2 hits minimum required for classification
 - Adds `is_fraud`, `fraud_hits`, and `fraud_score` fields
+- Final fraud scoring
 
-### 3. Database Loading
+### 3. Database Loading✅
 
 [src/database/supabase_load.py](src/database/supabase_load.py) performs:
 - Record normalization across different scraper formats
@@ -129,7 +132,7 @@ Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) 
 - Batch upserts (500 records per batch)
 - Fraud-only filtering
 
-## Output Format
+## Output Format✅
 
 Scraped data is stored as JSONL (JSON Lines) in the `data/` directory:
 
