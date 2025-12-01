@@ -9,6 +9,8 @@
 - Lena Ayesh
 - Sage Auton
 
+Streamlit dashboard: https://dnambiar--ftc-streamlit-dashboard-run-streamlit.modal.run/
+
 ## Project Summary
 
 A Python-based collection system that web scraps fraud-related content from the Federal Trade Commission (FTC) sources, filters & classifies articles using a fruad detection modal, and loads standardized results into a Supabase database — so that fraud analysts can quickly access a unified, structured dataset without manually searching across multiple FTC sources, enabling faster insights and trend detection.
