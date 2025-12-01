@@ -5,17 +5,7 @@ A collection of web scrapers that collect fraud-related content from Federal Tra
 ## Project Structure
 
 ```
-ftc-scrapers/
-├── main.py             # Main entry point
-├── src/                # Source code
-│   ├── scrapers/       # Individual FTC website scrapers
-│   ├── detect/         # Fraud detection logic
-│   ├── database/       # Database loading scripts
-│   ├── utils/          # Shared utilities (HTTP, keywords)
-│   └── scripts/        # Helper scripts
-├── data/               # Output data (JSONL files)
-├── archive/            # Legacy code
-└── tests/              # Tests (future)
+https://github.com/daiviknambiar/usaa-fraud-project/blob/ae3ccec77f639a8687f070cfb5c45af43f28a4a2/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg
 ```
 
 ## Setup
