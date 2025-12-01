@@ -1,5 +1,7 @@
 # FTC Fraud Scrapers
 
+**Automated Fraud Intelligence from FTC Data Sources**
+
 **Team Members**
 
 - Daivik Nambiar
@@ -26,7 +28,7 @@ uv sync
 
 2. **Install dependencies:**
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 3. **Configure environment variables:**
@@ -44,18 +46,18 @@ Use the main entry point for all operations:
 
 ```bash
 # Run a specific scraper
-.venv/bin/python main.py scrape press --limit 20 --pages 3
-.venv/bin/python main.py scrape legal --specific-only
-.venv/bin/python main.py scrape scams --limit 30
+uv run python main.py scrape press --limit 20 --pages 3
+uv run python main.py scrape legal --specific-only
+uv run python main.py scrape scams --limit 30
 
 # Load data to Supabase
-.venv/bin/python main.py load
+uv run python main.py load
 
 # Run full pipeline (all scrapers + load to database)
-.venv/bin/python main.py all
+uv run python main.py all
 
 # Show help
-.venv/bin/python main.py --help
+uv run python main.py --help
 ```
 
 ### Running Individual Scrapers Directly
@@ -64,14 +66,14 @@ You can also run scrapers directly if needed:
 
 ```bash
 # FTC Press Releases (with pagination)
-.venv/bin/python src/scrapers/ftc_press_releases.py --limit 20 --pages 3
+uv run python src/scrapers/ftc_press_releases.py --limit 20 --pages 3
 
 # FTC Legal Cases
-.venv/bin/python src/scrapers/ftc_legal_cases.py --limit 20
-.venv/bin/python src/scrapers/ftc_legal_cases.py --specific-only
+uv run python src/scrapers/ftc_legal_cases.py --limit 20
+uv run python src/scrapers/ftc_legal_cases.py --specific-only
 
 # FTC Consumer Scams
-.venv/bin/python src/scrapers/ftc_consumer_scams.py --limit 30
+uv run python src/scrapers/ftc_consumer_scams.py --limit 30
 ```
 
 ### Using Helper Scripts
@@ -80,20 +82,20 @@ Alternative helper scripts are available in `src/scripts/`:
 
 ```bash
 # Run a specific scraper
-.venv/bin/python src/scripts/run_scraper.py press --limit 20 --pages 3
+uv run python src/scripts/run_scraper.py press --limit 20 --pages 3
 
 # Run all scrapers
-.venv/bin/python src/scripts/run_all_scrapers.py
+uv run python src/scripts/run_all_scrapers.py
 ```
 
 ### Loading Data to Supabase
 
 ```bash
 # Via main.py (recommended)
-.venv/bin/python main.py load
+uv run python main.py load
 
 # Or directly
-.venv/bin/python src/database/supabase_load.py
+uv run python src/database/supabase_load.py
 ```
 
 The loader will:
@@ -106,6 +108,9 @@ The loader will:
 ## How It Works
 
 ### 1. Data Collection (Scrapers)
+
+Our pipeline transforms raw FTC web data into structured fraud intelligence:
+**Raw Input → Scraping → Classification → Database → Dashboard**
 
 Each scraper returns consistent fields:
 - **title**: Article/case title
@@ -139,6 +144,37 @@ Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) 
 - Batch upserts (500 records per batch)
 - Fraud-only filtering
 
+### Visual NLP Pipeline
+```
+┌─────────────────────┐
+│  5,000+ Articles    │  Raw text from database
+└──────────┬──────────┘
+           │ tokenize + encode
+           ▼
+┌─────────────────────┐
+│ Transformer Model   │  all-MiniLM-L6-v2 (384-dim vectors)
+└──────────┬──────────┘
+           │ mean pooling + normalize
+           ▼
+┌─────────────────────┐
+│ 384-D Embeddings    │  Semantic representations of articles
+└──────────┬──────────┘
+           │ PCA / t-SNE
+           ▼
+┌─────────────────────┐
+│ 2D/3D Coordinates   │  Dimensionality reduction for viz
+└──────────┬──────────┘
+           │ K-Means clustering
+           ▼
+┌─────────────────────┐
+│ Fraud Clusters      │  8 major fraud pattern groups identified
+└──────────┬──────────┘
+           │ matplotlib
+           ▼
+┌─────────────────────┐
+│ Visual Charts       │  Interactive fraud pattern maps
+└─────────────────────┘
+```
 
 ## 📊 Visuals & Findings
 
@@ -210,6 +246,13 @@ This proves our fraud detection model is able to surface the most critical artic
 
 This project is useful because it consolidates scattered fraud-related content from multiple FTC sources into a single, standardized dataset that analysts can easily search and explore. By automating the scraping, classification, and scoring of articles, the system removes the need for manual research and makes it faster to identify high-risk scams, detect emerging fraud patterns, and monitor trends over time. The dashboard and Supabase integration turn raw web data into actionable fraud intelligence that supports real-time analysis and decision-making.
 
+### Use Cases
+
+1. **Weekly Fraud Monitoring** → Track emerging scam trends and high-risk cases
+2. **Quarterly Executive Reports** → Generate data-backed insights for leadership
+3. **Case Investigation** → Search and analyze specific fraud types (e.g., "phone support scams")
+4. **Trend Analysis** → Visualize fraud patterns over time and by source
+5. **Training Data** → Build datasets for machine learning fraud detection models
 
 ## Output Format
 
@@ -260,10 +303,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 Test individual scrapers with small limits:
 ```bash
 # Via main.py
-.venv/bin/python main.py scrape press --limit 2
+uv run python main.py scrape press --limit 2
 
 # Or directly
-.venv/bin/python src/scrapers/ftc_press_releases.py --limit 2
+uv run python src/scrapers/ftc_press_releases.py --limit 2
 ```
 
 ### Legacy Code 
