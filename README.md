@@ -270,6 +270,11 @@ Test individual scrapers with small limits:
 
 The `archive/progress_report_1/` directory contains earlier scraper versions that have been superseded by the current implementation.
 
+## Documentation
+
+- [Project Specification / Requirements](https://docs.google.com/document/d/1VZiKUrZV7tVySIvheoRG_b6DJoSlaCy5PlLn8rGaA8A/edit?usp=sharing)
+- [Design & Architecture Notes](https://docs.google.com/document/d/1Im52dJdSkWfOw2B7ZlTYqPvzTsE5ivFe-Obyfu12JPw/edit?usp=sharing)
+
 ## License
 
 This is a student project for USAA fraud detection research.
