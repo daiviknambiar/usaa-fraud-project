@@ -274,7 +274,7 @@ The `archive/progress_report_1/` directory contains earlier scraper versions tha
 
 - [Project Report #1](https://docs.google.com/document/d/1VZiKUrZV7tVySIvheoRG_b6DJoSlaCy5PlLn8rGaA8A/edit?usp=sharing)
 - [Project Report #2](https://docs.google.com/document/d/1Im52dJdSkWfOw2B7ZlTYqPvzTsE5ivFe-Obyfu12JPw/edit?usp=sharing)
-- [Other Sources] (https://docs.google.com/document/d/18-FP38KaaVQip0v_2QEQeRdGYIXpvHbi2aGLMOa0gls/edit?usp=sharing)
+- [Other Sources](https://docs.google.com/document/d/18-FP38KaaVQip0v_2QEQeRdGYIXpvHbi2aGLMOa0gls/edit?usp=sharing)
 
 ## License
 
