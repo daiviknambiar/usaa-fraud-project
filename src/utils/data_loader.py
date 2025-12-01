@@ -69,11 +69,31 @@ class DataLoader:
         # Convert to DataFrame
         df = pd.DataFrame(articles)
         
+        # DEBUG
+        print(f"\n=== DEBUG DATA_LOADER ===")
+        print(f"Total articles loaded from files: {len(df)}")
+        
         # Normalize column names and data types
         df = self._normalize_dataframe(df)
         
+        # DEBUG
+        print(f"After normalization: {len(df)}")
+        if len(df) > 0:
+            # Check for any remaining string dates
+            valid_dates = df['published_at'].notna()
+            print(f"Valid dates: {valid_dates.sum()} / {len(df)}")
+            if valid_dates.sum() > 0:
+                print(f"Date range: {df.loc[valid_dates, 'published_at'].min()} to {df.loc[valid_dates, 'published_at'].max()}")
+            print(f"Fraud score range: {df['fraud_score'].min()} to {df['fraud_score'].max()}")
+            print(f"Sources: {df['source'].value_counts().to_dict()}")
+        
         # Apply filters
         df = self._apply_filters(df, filters)
+        
+        # DEBUG
+        print(f"After filters: {len(df)}")
+        print(f"Filters applied: {filters}")
+        print("=" * 50)
         
         return df
     
@@ -86,12 +106,39 @@ class DataLoader:
             if col not in df.columns:
                 df[col] = ''
         
-        # Handle date columns
+        # DEBUG: Check published column before parsing
+        if 'published' in df.columns:
+            print(f"DEBUG: Found 'published' column with {df['published'].notna().sum()} non-null values")
+        
+        # Handle date columns - simple approach
+        date_col = None
         if 'published_at' in df.columns:
-            df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
+            date_col = 'published_at'
         elif 'published' in df.columns:
-            # Handle both ISO format and space-separated format
-            df['published_at'] = pd.to_datetime(df['published'], errors='coerce', format='mixed')
+            date_col = 'published'
+            # Rename to published_at for consistency
+            df['published_at'] = df['published']
+        
+        if date_col:
+            # Ensure column is string type first to handle mixed types
+            df['published_at'] = df['published_at'].astype(str)
+            
+            # Replace 'nan', 'None', etc. with actual NaN
+            df['published_at'] = df['published_at'].replace(['nan', 'None', 'NaT', ''], pd.NA)
+            
+            # Parse dates
+            df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
+            
+            print(f"DEBUG: After parsing: {df['published_at'].notna().sum()} valid dates")
+            
+            # Handle timezone differences
+            if df['published_at'].notna().sum() > 0:
+                # For any tz-aware dates, convert to naive
+                for idx in df[df['published_at'].notna()].index:
+                    if df.loc[idx, 'published_at'].tzinfo is not None:
+                        df.loc[idx, 'published_at'] = df.loc[idx, 'published_at'].replace(tzinfo=None)
+            
+            print(f"DEBUG: Final valid dates: {df['published_at'].notna().sum()} out of {len(df)}")
         else:
             df['published_at'] = pd.NaT
         
@@ -131,14 +178,8 @@ class DataLoader:
         if len(df) == 0:
             return df
         
-        # Date range filter
-        if 'date_range' in filters and filters['date_range']:
-            date_range = filters['date_range']
-            if len(date_range) == 2:
-                start_date, end_date = date_range
-                if 'published_at' in df.columns:
-                    mask = (df['published_at'].dt.date >= start_date) & (df['published_at'].dt.date <= end_date)
-                    df = df[mask]
+        # SKIP DATE FILTER - just show all articles
+        print(f"DEBUG Filter: Skipping date filter, showing all articles")
         
         # Source filter
         if 'sources' in filters and filters['sources']:
@@ -152,12 +193,16 @@ class DataLoader:
                     'FTC DNC Complaints': 'ftc_dnc'
                 }
                 internal_sources = [source_map.get(s, s) for s in sources]
+                before_filter = len(df)
                 df = df[df['source'].isin(internal_sources)]
+                print(f"DEBUG Filter: Source filter removed {before_filter - len(df)} articles")
         
         # Fraud score filter
         if 'min_fraud_score' in filters:
             min_score = filters['min_fraud_score']
+            before_filter = len(df)
             df = df[df['fraud_score'] >= min_score]
+            print(f"DEBUG Filter: Fraud score filter (>={min_score}) removed {before_filter - len(df)} articles")
         
         return df
     

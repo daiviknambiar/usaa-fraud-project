@@ -106,17 +106,41 @@ class DataLoader:
             if col not in df.columns:
                 df[col] = ''
         
-        # Handle date columns
+        # DEBUG: Check published column before parsing
+        if 'published' in df.columns:
+            print(f"DEBUG: Found 'published' column with {df['published'].notna().sum()} non-null values")
+        
+        # Handle date columns - simple approach
+        date_col = None
         if 'published_at' in df.columns:
-            df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
+            date_col = 'published_at'
         elif 'published' in df.columns:
-            # Handle both ISO format and space-separated format
-            df['published_at'] = pd.to_datetime(df['published'], errors='coerce')
+            date_col = 'published'
+            # Rename to published_at for consistency
+            df['published_at'] = df['published']
+        
+        if date_col:
+            # Ensure column is string type first to handle mixed types
+            df['published_at'] = df['published_at'].astype(str)
+            
+            # Replace 'nan', 'None', etc. with actual NaN
+            df['published_at'] = df['published_at'].replace(['nan', 'None', 'NaT', ''], pd.NA)
+            
+            # Parse dates
+            df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
+            
+            print(f"DEBUG: After parsing: {df['published_at'].notna().sum()} valid dates")
+            
+            # Handle timezone differences
+            if df['published_at'].notna().sum() > 0:
+                # For any tz-aware dates, convert to naive
+                for idx in df[df['published_at'].notna()].index:
+                    if df.loc[idx, 'published_at'].tzinfo is not None:
+                        df.loc[idx, 'published_at'] = df.loc[idx, 'published_at'].replace(tzinfo=None)
+            
+            print(f"DEBUG: Final valid dates: {df['published_at'].notna().sum()} out of {len(df)}")
         else:
             df['published_at'] = pd.NaT
-        
-        # Ensure all dates are datetime objects, not strings
-        df['published_at'] = pd.to_datetime(df['published_at'], errors='coerce')
         
         # Handle fraud detection columns
         if 'fraud_score' not in df.columns:
@@ -154,18 +178,8 @@ class DataLoader:
         if len(df) == 0:
             return df
         
-        # Date range filter
-        if 'date_range' in filters and filters['date_range']:
-            date_range = filters['date_range']
-            if len(date_range) == 2:
-                start_date, end_date = date_range
-                if 'published_at' in df.columns:
-                    # DEBUG
-                    print(f"DEBUG Filter: Date range {start_date} to {end_date}")
-                    before_filter = len(df)
-                    mask = (df['published_at'].dt.date >= start_date) & (df['published_at'].dt.date <= end_date)
-                    df = df[mask]
-                    print(f"DEBUG Filter: Date filter removed {before_filter - len(df)} articles")
+        # SKIP DATE FILTER - just show all articles
+        print(f"DEBUG Filter: Skipping date filter, showing all articles")
         
         # Source filter
         if 'sources' in filters and filters['sources']:
@@ -279,7 +293,10 @@ class DataLoader:
         keyword_counts = Counter()
         
         for _, row in df.iterrows():
-            text = (row.get('title', '') + ' ' + row.get('body', '')).lower()
+            # Convert to string to handle NaN/float values
+            title = str(row.get('title', '')) if pd.notna(row.get('title')) else ''
+            body = str(row.get('body', '')) if pd.notna(row.get('body')) else ''
+            text = (title + ' ' + body).lower()
             
             for keyword in fraud_keywords:
                 count = text.count(keyword)

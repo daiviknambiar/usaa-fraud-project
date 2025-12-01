@@ -72,12 +72,7 @@ def main():
     
     loader = get_data_loader()
     
-    # Date range filter
-    date_range = st.sidebar.date_input(
-        "Date Range",
-        value=(datetime.now() - timedelta(days=90), datetime.now()),
-        max_value=datetime.now()
-    )
+
     
     sources = st.sidebar.multiselect(
     "Sources",
@@ -105,7 +100,7 @@ def main():
         st.session_state.filters = {}
     
     st.session_state.filters = {
-        'date_range': date_range,
+       # 'date_range': date_range, commented out bc of errors
         'sources': sources,
         'min_fraud_score': min_fraud_score
     }
