@@ -9,7 +9,7 @@ A Python-based collection system that web scraps fraud-related content from the 
 ![Project Structure](https://raw.githubusercontent.com/daiviknambiar/usaa-fraud-project/main/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg)
 
 
-## Installation & Setup🚀
+## Installation & Setup 🚀
 
 1. **Create and activate virtual environment:**
 ```bash
@@ -98,7 +98,7 @@ The loader will:
 
 ## How It Works
 
-### 1. Data Collection (Scrapers)✅
+### 1. Data Collection (Scrapers) ✅
 
 Each scraper returns consistent fields:
 - **title**: Article/case title
@@ -109,7 +109,7 @@ Each scraper returns consistent fields:
 
 Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) during collection to focus on fraud-related content.
 
-### 2. Fraud Detection (A Two-Tier System)✅
+### 2. Fraud Detection (A Two-Tier System) ✅
 
 **Tier 1: Content Filtering** ([src/utils/keywords.py](src/utils/keywords.py))
 - Basic filtering when scraping
@@ -123,7 +123,7 @@ Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) 
 - Adds `is_fraud`, `fraud_hits`, and `fraud_score` fields
 - Final fraud scoring
 
-### 3. Database Loading✅
+### 3. Database Loading ✅
 
 [src/database/supabase_load.py](src/database/supabase_load.py) performs:
 - Record normalization across different scraper formats
@@ -132,7 +132,7 @@ Scrapers use keyword filtering ([src/utils/keywords.py](src/utils/keywords.py)) 
 - Batch upserts (500 records per batch)
 - Fraud-only filtering
 
-## Output Format✅
+## Output Format ✅
 
 Scraped data is stored as JSONL (JSON Lines) in the `data/` directory:
 
@@ -161,7 +161,7 @@ After fraud detection:
 }
 ```
 
-## Development
+## Development 🧑‍💻
 
 ### Adding a New Scraper
 
@@ -176,7 +176,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 4. Follow the existing scraper patterns
 5. Add to `main.py` SCRAPERS dict
 
-### Testing
+### Testing 🧪
 
 Test individual scrapers with small limits:
 ```bash
@@ -187,7 +187,7 @@ Test individual scrapers with small limits:
 .venv/bin/python src/scrapers/ftc_press_releases.py --limit 2
 ```
 
-### Legacy Code
+### Legacy Code 
 
 The `archive/progress_report_1/` directory contains earlier scraper versions that have been superseded by the current implementation.
 
