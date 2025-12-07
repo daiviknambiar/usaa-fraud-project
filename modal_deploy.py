@@ -24,6 +24,7 @@ image = (
     .add_local_dir("dashboard", "/root/dashboard")
     .add_local_dir("src", "/root/src")
     .add_local_dir("data", "/root/data")
+    .add_local_dir("visualizations", "/root/visualizations")  # ← ADD THIS LINE
 )
 
 # Get secrets from environment variables
