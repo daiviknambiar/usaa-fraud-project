@@ -500,17 +500,27 @@ def render_embeddings_view(df):
     """)
     
     # Define paths to pre-generated images
-    pca_2d_path = Path("visualizations/embeddings_2d_pca.png")
-    tsne_2d_path = Path("visualizations/embeddings_2d_tsne.png")
-    pca_3d_path = Path("visualizations/embeddings_3d_pca.png")
-    tsne_3d_path = Path("visualizations/embeddings_3d_tsne.png")
+    # Try both local and Modal deployment paths
+    base_paths = ["visualizations", "/root/visualizations"]
+    
+    def find_file(filename):
+        for base in base_paths:
+            path = Path(base) / filename
+            if path.exists():
+                return path
+        return None
+    
+    pca_2d_path = find_file("embeddings_2d_pca.png")
+    tsne_2d_path = find_file("embeddings_2d_tsne.png")
+    pca_3d_path = find_file("embeddings_3d_pca.png")
+    tsne_3d_path = find_file("embeddings_3d_tsne.png")
     
     # Check if any visualization exists
     has_visualizations = any([
-        pca_2d_path.exists(),
-        tsne_2d_path.exists(),
-        pca_3d_path.exists(),
-        tsne_3d_path.exists()
+        pca_2d_path is not None,
+        tsne_2d_path is not None,
+        pca_3d_path is not None,
+        tsne_3d_path is not None
     ])
     
     if not has_visualizations:
@@ -527,7 +537,7 @@ def render_embeddings_view(df):
     col1, col2 = st.columns(2)
     
     with col1:
-        if pca_2d_path.exists():
+        if pca_2d_path:
             st.markdown("#### PCA 2D Projection")
             st.markdown("*Principal Component Analysis - Linear dimensionality reduction*")
             st.image(str(pca_2d_path), use_container_width=True)
@@ -535,7 +545,7 @@ def render_embeddings_view(df):
             st.info("PCA 2D visualization not available")
     
     with col2:
-        if tsne_2d_path.exists():
+        if tsne_2d_path:
             st.markdown("#### t-SNE 2D Projection")
             st.markdown("*t-Distributed Stochastic Neighbor Embedding - Non-linear reduction*")
             st.image(str(tsne_2d_path), use_container_width=True)
@@ -550,14 +560,14 @@ def render_embeddings_view(df):
     col1, col2 = st.columns(2)
     
     with col1:
-        if pca_3d_path.exists():
+        if pca_3d_path:
             st.markdown("#### PCA 3D Projection")
             st.image(str(pca_3d_path), use_container_width=True)
         else:
             st.info("PCA 3D visualization not available")
     
     with col2:
-        if tsne_3d_path.exists():
+        if tsne_3d_path:
             st.markdown("#### t-SNE 3D Projection")
             st.image(str(tsne_3d_path), use_container_width=True)
         else:
@@ -567,34 +577,34 @@ def render_embeddings_view(df):
     st.markdown("---")
     st.markdown("### 📈 Additional Insights")
     
-    fraud_overview_path = Path("visualizations/fraud_overview.jpeg")
-    fraud_score_path = Path("visualizations/fraud_score.png")
-    high_risk_path = Path("visualizations/high-risk_alerts.jpeg")
-    articles_published_path = Path("visualizations/articles_published.png")
+    fraud_overview_path = find_file("fraud_overview.jpeg")
+    fraud_score_path = find_file("fraud_score.png")
+    high_risk_path = find_file("high-risk_alerts.jpeg")
+    articles_published_path = find_file("articles_published.png")
     
-    if fraud_overview_path.exists() or fraud_score_path.exists():
+    if fraud_overview_path or fraud_score_path:
         col1, col2 = st.columns(2)
         
         with col1:
-            if fraud_overview_path.exists():
+            if fraud_overview_path:
                 st.markdown("#### Fraud Overview")
                 st.image(str(fraud_overview_path), use_container_width=True)
         
         with col2:
-            if fraud_score_path.exists():
+            if fraud_score_path:
                 st.markdown("#### Fraud Score Distribution")
                 st.image(str(fraud_score_path), use_container_width=True)
     
-    if high_risk_path.exists() or articles_published_path.exists():
+    if high_risk_path or articles_published_path:
         col1, col2 = st.columns(2)
         
         with col1:
-            if high_risk_path.exists():
+            if high_risk_path:
                 st.markdown("#### High-Risk Alerts")
                 st.image(str(high_risk_path), use_container_width=True)
         
         with col2:
-            if articles_published_path.exists():
+            if articles_published_path:
                 st.markdown("#### Articles Published")
                 st.image(str(articles_published_path), use_container_width=True)
     
