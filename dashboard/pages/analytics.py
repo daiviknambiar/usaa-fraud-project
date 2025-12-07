@@ -499,92 +499,121 @@ def render_embeddings_view(df):
     Articles with similar content will appear close together in this visualization.
     """)
     
-    # Check if embeddings exist
-    embeddings_path = Path("visualizations/embeddings.npz")
+    # Define paths to pre-generated images
+    pca_2d_path = Path("visualizations/embeddings_2d_pca.png")
+    tsne_2d_path = Path("visualizations/embeddings_2d_tsne.png")
+    pca_3d_path = Path("visualizations/embeddings_3d_pca.png")
+    tsne_3d_path = Path("visualizations/embeddings_3d_tsne.png")
     
-    if not embeddings_path.exists():
-        st.warning("⚠️ Embeddings data file not found in the visualizations directory.")
-        st.markdown("The embeddings need to be generated locally and included in the deployment.")
+    # Check if any visualization exists
+    has_visualizations = any([
+        pca_2d_path.exists(),
+        tsne_2d_path.exists(),
+        pca_3d_path.exists(),
+        tsne_3d_path.exists()
+    ])
+    
+    if not has_visualizations:
+        st.warning("⚠️ No embedding visualizations found in the visualizations directory.")
+        st.markdown("Please ensure the visualization PNG files are included in the deployment.")
         return
     
-    # Load and display embeddings
-    st.success("✅ Embeddings found! Loading visualization...")
+    st.success("✅ Embeddings visualizations loaded!")
     
-    try:
-        data = np.load(embeddings_path, allow_pickle=True)
-        embeddings = data['embeddings']
-        titles = data['titles']
-        sources = data['sources']
-        
-        st.markdown(f"**Loaded:** {len(embeddings)} articles with {embeddings.shape[1]}-dimensional embeddings")
-        
-        # Check for pre-generated images
-        pca_2d_path = Path("visualizations/embeddings_2d_pca.png")
-        tsne_2d_path = Path("visualizations/embeddings_2d_tsne.png")
-        pca_3d_path = Path("visualizations/embeddings_3d_pca.png")
-        tsne_3d_path = Path("visualizations/embeddings_3d_tsne.png")
-        
-        # Display available visualizations
-        st.markdown("### 📊 Pre-generated Visualizations")
-        
+    # Display 2D visualizations
+    st.markdown("### 📊 2D Projections")
+    st.markdown("These visualizations show fraud articles clustered by similarity in 2D space.")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if pca_2d_path.exists():
+            st.markdown("#### PCA 2D Projection")
+            st.markdown("*Principal Component Analysis - Linear dimensionality reduction*")
+            st.image(str(pca_2d_path), use_container_width=True)
+        else:
+            st.info("PCA 2D visualization not available")
+    
+    with col2:
+        if tsne_2d_path.exists():
+            st.markdown("#### t-SNE 2D Projection")
+            st.markdown("*t-Distributed Stochastic Neighbor Embedding - Non-linear reduction*")
+            st.image(str(tsne_2d_path), use_container_width=True)
+        else:
+            st.info("t-SNE 2D visualization not available")
+    
+    # Display 3D visualizations
+    st.markdown("---")
+    st.markdown("### 📐 3D Projections")
+    st.markdown("These visualizations provide an additional dimension for exploring fraud patterns.")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if pca_3d_path.exists():
+            st.markdown("#### PCA 3D Projection")
+            st.image(str(pca_3d_path), use_container_width=True)
+        else:
+            st.info("PCA 3D visualization not available")
+    
+    with col2:
+        if tsne_3d_path.exists():
+            st.markdown("#### t-SNE 3D Projection")
+            st.image(str(tsne_3d_path), use_container_width=True)
+        else:
+            st.info("t-SNE 3D visualization not available")
+    
+    # Additional visualizations if they exist
+    st.markdown("---")
+    st.markdown("### 📈 Additional Insights")
+    
+    fraud_overview_path = Path("visualizations/fraud_overview.jpeg")
+    fraud_score_path = Path("visualizations/fraud_score.png")
+    high_risk_path = Path("visualizations/high-risk_alerts.jpeg")
+    articles_published_path = Path("visualizations/articles_published.png")
+    
+    if fraud_overview_path.exists() or fraud_score_path.exists():
         col1, col2 = st.columns(2)
         
         with col1:
-            if pca_2d_path.exists():
-                st.markdown("#### PCA 2D Projection")
-                st.image(str(pca_2d_path), use_container_width=True)
-            else:
-                st.info("PCA 2D visualization not found")
-            
-            if pca_3d_path.exists():
-                st.markdown("#### PCA 3D Projection")
-                st.image(str(pca_3d_path), use_container_width=True)
+            if fraud_overview_path.exists():
+                st.markdown("#### Fraud Overview")
+                st.image(str(fraud_overview_path), use_container_width=True)
         
         with col2:
-            if tsne_2d_path.exists():
-                st.markdown("#### t-SNE 2D Projection")
-                st.image(str(tsne_2d_path), use_container_width=True)
-            else:
-                st.info("t-SNE 2D visualization not found")
-            
-            if tsne_3d_path.exists():
-                st.markdown("#### t-SNE 3D Projection")
-                st.image(str(tsne_3d_path), use_container_width=True)
-        
-        # Display embedding statistics
-        st.markdown("---")
-        st.markdown("### 📈 Embedding Statistics")
-        
-        col1, col2, col3, col4 = st.columns(4)
+            if fraud_score_path.exists():
+                st.markdown("#### Fraud Score Distribution")
+                st.image(str(fraud_score_path), use_container_width=True)
+    
+    if high_risk_path.exists() or articles_published_path.exists():
+        col1, col2 = st.columns(2)
         
         with col1:
-            st.metric("Total Articles", len(embeddings))
+            if high_risk_path.exists():
+                st.markdown("#### High-Risk Alerts")
+                st.image(str(high_risk_path), use_container_width=True)
+        
         with col2:
-            st.metric("Embedding Dimensions", embeddings.shape[1])
-        with col3:
-            unique_sources = len(set(sources))
-            st.metric("Unique Sources", unique_sources)
-        with col4:
-            avg_norm = np.linalg.norm(embeddings, axis=1).mean()
-            st.metric("Avg Vector Norm", f"{avg_norm:.2f}")
-        
-        # Show source distribution
-        st.markdown("### 📚 Articles by Source")
-        source_counts = pd.Series(sources).value_counts()
-        
-        fig = px.bar(
-            x=source_counts.values,
-            y=source_counts.index,
-            orientation='h',
-            labels={'x': 'Count', 'y': 'Source'},
-            title="Distribution of Articles Across Sources"
-        )
-        fig.update_layout(height=300)
-        st.plotly_chart(fig, use_container_width=True)
-        
-    except Exception as e:
-        st.error(f"Error loading embeddings: {e}")
-        st.markdown("**Troubleshooting:**")
-        st.markdown("- Ensure `embeddings.npz` exists in the `visualizations/` directory")
-        st.markdown("- Ensure PNG images are also in `visualizations/` directory")
-        st.markdown("- Check that the visualizations directory is properly mounted in Modal deployment")
+            if articles_published_path.exists():
+                st.markdown("#### Articles Published")
+                st.image(str(articles_published_path), use_container_width=True)
+    
+    # Info about the visualizations
+    st.markdown("---")
+    st.markdown("""
+    ### 📖 Understanding These Visualizations
+    
+    **What do the clusters mean?**
+    - Points close together represent articles with similar fraud patterns and language
+    - Different colors typically represent different data sources or fraud categories
+    - Distinct clusters may indicate different types of fraud schemes
+    
+    **PCA vs t-SNE:**
+    - **PCA**: Preserves global structure, faster, deterministic
+    - **t-SNE**: Better at preserving local structure, reveals fine-grained patterns
+    
+    **How to use this:**
+    - Look for tight clusters to identify common fraud patterns
+    - Outliers may represent unique or emerging fraud schemes
+    - Use this to understand relationships between different fraud cases
+    """)
