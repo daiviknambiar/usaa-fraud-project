@@ -79,7 +79,7 @@ def render_fraud_score_analysis(df):
             showlegend=False
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     with col2:
         # Risk category breakdown with counts
@@ -105,7 +105,7 @@ def render_fraud_score_analysis(df):
             height=400
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     # Statistics cards
     st.markdown("---")
@@ -155,7 +155,7 @@ def render_fraud_score_analysis(df):
         showlegend=False
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_column_width=True)
     
     # Violin plot for detailed distribution
     st.markdown("### 🎻 Detailed Score Distribution by Source")
@@ -178,7 +178,7 @@ def render_fraud_score_analysis(df):
         height=400
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_column_width=True)
 
 def render_keyword_analysis(df, loader):
     """Enhanced keyword analysis"""
@@ -210,7 +210,7 @@ def render_keyword_analysis(df, loader):
                     height=600,
                     yaxis={'categoryorder': 'total ascending'}
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, use_column_width=True)
             
             elif chart_type == "Treemap":
                 fig = px.treemap(
@@ -222,7 +222,7 @@ def render_keyword_analysis(df, loader):
                     title="Keyword Frequency Treemap"
                 )
                 fig.update_layout(height=600)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, use_column_width=True)
             
             elif chart_type == "Word Cloud":
                 st.info("📝 Keyword sizes represent frequency")
@@ -257,7 +257,7 @@ def render_keyword_analysis(df, loader):
                     xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
                     yaxis=dict(showgrid=False, showticklabels=False, zeroline=False)
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, use_column_width=True)
         
         # Keyword co-occurrence heatmap
         st.markdown("---")
@@ -279,7 +279,7 @@ def render_keyword_analysis(df, loader):
             )
             
             fig.update_layout(height=500)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_column_width=True)
 
 def calculate_cooccurrence(df, keywords):
     """Calculate keyword co-occurrence matrix"""
@@ -341,7 +341,7 @@ def render_geographic_analysis(df):
                 color_continuous_scale='Reds'
             )
             fig.update_layout(height=600, yaxis={'categoryorder': 'total ascending'})
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_column_width=True)
         
         with col2:
             st.markdown("### Location Stats")
@@ -350,7 +350,7 @@ def render_geographic_analysis(df):
             st.metric("Top Location Count", int(location_df.iloc[0]['Count']))
             
             st.markdown("---")
-            st.dataframe(location_df, use_container_width=True, height=400)
+            st.dataframe(location_df, use_column_width=True, height=400)
         
 
 
@@ -458,7 +458,7 @@ def render_network_analysis(df):
         hovermode='closest'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_column_width=True)
     
     # Category breakdown table
     st.markdown("---")
@@ -484,10 +484,10 @@ def render_network_analysis(df):
             title="Articles per Fraud Category"
         )
         fig.update_layout(height=400, yaxis={'categoryorder': 'total ascending'})
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     with col2:
-        st.dataframe(stats_df, use_container_width=True, hide_index=True, height=400)
+        st.dataframe(stats_df, use_column_width=True, hide_index=True, height=400)
 
 def render_embeddings_view(df):
     """Display embeddings visualization"""
@@ -562,14 +562,14 @@ def render_embeddings_view(df):
     with col1:
         if pca_3d_path:
             st.markdown("#### PCA 3D Projection")
-            st.image(str(pca_3d_path), use_container_width=True)
+            st.image(str(pca_3d_path), use_column_width=True)
         else:
             st.info("PCA 3D visualization not available")
     
     with col2:
         if tsne_3d_path:
             st.markdown("#### t-SNE 3D Projection")
-            st.image(str(tsne_3d_path), use_container_width=True)
+            st.image(str(tsne_3d_path), use_column_width=True)
         else:
             st.info("t-SNE 3D visualization not available")
     
