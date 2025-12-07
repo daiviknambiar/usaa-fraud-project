@@ -350,7 +350,7 @@ def render_geographic_analysis(df):
             st.metric("Top Location Count", int(location_df.iloc[0]['Count']))
             
             st.markdown("---")
-            st.dataframe(location_df, use_column_width=True, height=400)
+            st.dataframe(location_df, height=400)
         
 
 
@@ -487,7 +487,7 @@ def render_network_analysis(df):
         st.plotly_chart(fig, use_column_width=True)
     
     with col2:
-        st.dataframe(stats_df, use_column_width=True, hide_index=True, height=400)
+        st.dataframe(stats_df, hide_index=True, height=400)
 
 def render_embeddings_view(df):
     """Display embeddings visualization"""
