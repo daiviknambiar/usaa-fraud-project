@@ -344,7 +344,7 @@ def render_geographic_analysis(df):
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            st.markdown("### 📊 Location Stats")
+            st.markdown("### Location Stats")
             st.metric("Total Unique Locations", len(location_counts))
             st.metric("Most Common", location_df.iloc[0]['Location'])
             st.metric("Top Location Count", int(location_df.iloc[0]['Count']))
@@ -352,34 +352,7 @@ def render_geographic_analysis(df):
             st.markdown("---")
             st.dataframe(location_df, use_container_width=True, height=400)
         
-        # State-level analysis if we can parse states
-        st.markdown("---")
-        st.markdown("### 🏛️ State-Level Analysis")
-        
-        states = []
-        for loc in locations:
-            # Extract state (last word before area code or end)
-            parts = loc.split(',')
-            if len(parts) >= 2:
-                state = parts[-1].strip().split()[0]
-                states.append(state)
-        
-        if states:
-            state_counts = Counter(states)
-            state_df = pd.DataFrame(state_counts.most_common(), columns=['State', 'Count'])
-            
-            fig = px.bar(
-                state_df.head(15),
-                x='State',
-                y='Count',
-                title="Top 15 States by Complaint Volume",
-                color='Count',
-                color_continuous_scale='Reds'
-            )
-            fig.update_layout(height=400)
-            st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.info("No geographic data available in the current dataset")
+
 
 def render_network_analysis(df):
     """Network view of fraud types and relationships"""
