@@ -17,7 +17,7 @@ A Python-based collection system that web scraps fraud-related content from the 
 
 ## Project Structure
 
-![Project Structure](https://raw.githubusercontent.com/daiviknambiar/usaa-fraud-project/main/Screenshot%202025-11-30%20at%2011.12.15%20PM.jpg)
+![Project Structure]([(https://layesh1--ftc-streamlit-dashboard-run-streamlit.modal.run/))
 
 
 ## Installation & Setup
