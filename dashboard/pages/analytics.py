@@ -540,7 +540,7 @@ def render_embeddings_view(df):
         if pca_2d_path:
             st.markdown("#### PCA 2D Projection")
             st.markdown("*Principal Component Analysis - Linear dimensionality reduction*")
-            st.image(str(pca_2d_path), use_container_width=True)
+            st.image(str(pca_2d_path), use_column_width=True)
         else:
             st.info("PCA 2D visualization not available")
     
@@ -548,7 +548,7 @@ def render_embeddings_view(df):
         if tsne_2d_path:
             st.markdown("#### t-SNE 2D Projection")
             st.markdown("*t-Distributed Stochastic Neighbor Embedding - Non-linear reduction*")
-            st.image(str(tsne_2d_path), use_container_width=True)
+            st.image(str(tsne_2d_path), use_column_width=True)
         else:
             st.info("t-SNE 2D visualization not available")
     
@@ -588,12 +588,12 @@ def render_embeddings_view(df):
         with col1:
             if fraud_overview_path:
                 st.markdown("#### Fraud Overview")
-                st.image(str(fraud_overview_path), use_container_width=True)
+                st.image(str(fraud_overview_path), use_column_width=True)
         
         with col2:
             if fraud_score_path:
                 st.markdown("#### Fraud Score Distribution")
-                st.image(str(fraud_score_path), use_container_width=True)
+                st.image(str(fraud_score_path), use_column_width=True)
     
     if high_risk_path or articles_published_path:
         col1, col2 = st.columns(2)
@@ -601,12 +601,12 @@ def render_embeddings_view(df):
         with col1:
             if high_risk_path:
                 st.markdown("#### High-Risk Alerts")
-                st.image(str(high_risk_path), use_container_width=True)
+                st.image(str(high_risk_path), use_column_width=True)
         
         with col2:
             if articles_published_path:
                 st.markdown("#### Articles Published")
-                st.image(str(articles_published_path), use_container_width=True)
+                st.image(str(articles_published_path), use_column_width=True)
     
     # Info about the visualizations
     st.markdown("---")
