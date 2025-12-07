@@ -9,7 +9,7 @@
 - Lena Ayesh
 - Sage Auton
 
-Streamlit dashboard: https://dnambiar--ftc-streamlit-dashboard-run-streamlit.modal.run/
+Streamlit dashboard:(https://layesh1--ftc-streamlit-dashboard-run-streamlit.modal.run/)
 
 ## Project Summary
 
