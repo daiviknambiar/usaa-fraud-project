@@ -503,102 +503,88 @@ def render_embeddings_view(df):
     embeddings_path = Path("visualizations/embeddings.npz")
     
     if not embeddings_path.exists():
-        st.warning("⚠️ Embeddings not yet generated. Click the button below to create them.")
+        st.warning("⚠️ Embeddings data file not found in the visualizations directory.")
+        st.markdown("The embeddings need to be generated locally and included in the deployment.")
+        return
+    
+    # Load and display embeddings
+    st.success("✅ Embeddings found! Loading visualization...")
+    
+    try:
+        data = np.load(embeddings_path, allow_pickle=True)
+        embeddings = data['embeddings']
+        titles = data['titles']
+        sources = data['sources']
         
-        if st.button("🚀 Generate Embeddings (This may take a few minutes)", type="primary"):
-            with st.spinner("Generating embeddings... This will take 2-5 minutes depending on data size."):
-                try:
-                    import sys
-                    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-                    from visualizations.visualize_embeddings import EmbeddingVisualizer
-                    
-                    visualizer = EmbeddingVisualizer(data_dir="data", output_dir="visualizations")
-                    visualizer.run_full_pipeline(methods=['pca'], dimensions=[2])
-                    
-                    st.success("✅ Embeddings generated successfully! Refresh the page to see visualizations.")
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"Error generating embeddings: {e}")
+        st.markdown(f"**Loaded:** {len(embeddings)} articles with {embeddings.shape[1]}-dimensional embeddings")
         
+        # Check for pre-generated images
+        pca_2d_path = Path("visualizations/embeddings_2d_pca.png")
+        tsne_2d_path = Path("visualizations/embeddings_2d_tsne.png")
+        pca_3d_path = Path("visualizations/embeddings_3d_pca.png")
+        tsne_3d_path = Path("visualizations/embeddings_3d_tsne.png")
+        
+        # Display available visualizations
+        st.markdown("### 📊 Pre-generated Visualizations")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if pca_2d_path.exists():
+                st.markdown("#### PCA 2D Projection")
+                st.image(str(pca_2d_path), use_container_width=True)
+            else:
+                st.info("PCA 2D visualization not found")
+            
+            if pca_3d_path.exists():
+                st.markdown("#### PCA 3D Projection")
+                st.image(str(pca_3d_path), use_container_width=True)
+        
+        with col2:
+            if tsne_2d_path.exists():
+                st.markdown("#### t-SNE 2D Projection")
+                st.image(str(tsne_2d_path), use_container_width=True)
+            else:
+                st.info("t-SNE 2D visualization not found")
+            
+            if tsne_3d_path.exists():
+                st.markdown("#### t-SNE 3D Projection")
+                st.image(str(tsne_3d_path), use_container_width=True)
+        
+        # Display embedding statistics
         st.markdown("---")
-        st.markdown("### Alternative: Upload Pre-generated Embeddings")
-        st.markdown("If you've already generated embeddings elsewhere, you can upload them here.")
+        st.markdown("### 📈 Embedding Statistics")
         
-    else:
-        # Load and display embeddings
-        st.success("✅ Embeddings found! Loading visualization...")
+        col1, col2, col3, col4 = st.columns(4)
         
-        try:
-            data = np.load(embeddings_path, allow_pickle=True)
-            embeddings = data['embeddings']
-            titles = data['titles']
-            sources = data['sources']
-            
-            st.markdown(f"**Loaded:** {len(embeddings)} articles with {embeddings.shape[1]}-dimensional embeddings")
-            
-            # Check for pre-generated images
-            pca_2d_path = Path("visualizations/embeddings_2d_pca.png")
-            tsne_2d_path = Path("visualizations/embeddings_2d_tsne.png")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if pca_2d_path.exists():
-                    st.markdown("### PCA Projection")
-                    st.image(str(pca_2d_path), use_container_width=True)
-                else:
-                    st.info("PCA visualization not found. Generate it using the visualize_embeddings.py script.")
-            
-            with col2:
-                if tsne_2d_path.exists():
-                    st.markdown("### t-SNE Projection")
-                    st.image(str(tsne_2d_path), use_container_width=True)
-                else:
-                    st.info("t-SNE visualization not found. Generate it using the visualize_embeddings.py script.")
-            
-            # Interactive 2D scatter if we can reduce dimensions
-            st.markdown("---")
-            st.markdown("### 🔍 Interactive Embedding Explorer")
-            
-            method = st.radio("Reduction Method", ["PCA", "t-SNE"], horizontal=True)
-            
-            if st.button(f"Generate Interactive {method} View"):
-                with st.spinner(f"Reducing dimensions with {method}..."):
-                    try:
-                        from visualizations.visualize_embeddings import SimplePCA, SimpleTSNE
-                        
-                        if method == "PCA":
-                            reducer = SimplePCA(n_components=2)
-                        else:
-                            reducer = SimpleTSNE(n_components=2, perplexity=min(30, len(embeddings)-1), n_iter=500)
-                        
-                        coords = reducer.fit_transform(embeddings)
-                        
-                        # Create interactive plot
-                        plot_df = pd.DataFrame({
-                            'x': coords[:, 0],
-                            'y': coords[:, 1],
-                            'title': titles,
-                            'source': sources
-                        })
-                        
-                        fig = px.scatter(
-                            plot_df,
-                            x='x',
-                            y='y',
-                            color='source',
-                            hover_data=['title'],
-                            title=f"{method} Projection of Document Embeddings",
-                            labels={'x': f'{method} Component 1', 'y': f'{method} Component 2'}
-                        )
-                        
-                        fig.update_traces(marker=dict(size=8, opacity=0.6))
-                        fig.update_layout(height=600)
-                        
-                        st.plotly_chart(fig, use_container_width=True)
-                        
-                    except Exception as e:
-                        st.error(f"Error: {e}")
-            
-        except Exception as e:
-            st.error(f"Error loading embeddings: {e}")
+        with col1:
+            st.metric("Total Articles", len(embeddings))
+        with col2:
+            st.metric("Embedding Dimensions", embeddings.shape[1])
+        with col3:
+            unique_sources = len(set(sources))
+            st.metric("Unique Sources", unique_sources)
+        with col4:
+            avg_norm = np.linalg.norm(embeddings, axis=1).mean()
+            st.metric("Avg Vector Norm", f"{avg_norm:.2f}")
+        
+        # Show source distribution
+        st.markdown("### 📚 Articles by Source")
+        source_counts = pd.Series(sources).value_counts()
+        
+        fig = px.bar(
+            x=source_counts.values,
+            y=source_counts.index,
+            orientation='h',
+            labels={'x': 'Count', 'y': 'Source'},
+            title="Distribution of Articles Across Sources"
+        )
+        fig.update_layout(height=300)
+        st.plotly_chart(fig, use_container_width=True)
+        
+    except Exception as e:
+        st.error(f"Error loading embeddings: {e}")
+        st.markdown("**Troubleshooting:**")
+        st.markdown("- Ensure `embeddings.npz` exists in the `visualizations/` directory")
+        st.markdown("- Ensure PNG images are also in `visualizations/` directory")
+        st.markdown("- Check that the visualizations directory is properly mounted in Modal deployment")
