@@ -227,7 +227,7 @@ def render(loader):
                 with col1:
                     st.write(f"**Source:** {row.get('source', 'Unknown')}")
                     if 'published_at' in row and row['published_at']:
-                        st.write(f"**Published:** {row['published_at'].strftime('%Y-%m-%d')}")
+                        st.write(f"**Published:** {row['published_at'].strftime('%Y-%m-%d') if pd.notna(row['published_at']) else 'Unknown'}")
                 
                 with col2:
                     st.metric("Fraud Score", f"{row['fraud_score']:.1f}")
